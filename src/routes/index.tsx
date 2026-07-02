@@ -36,29 +36,27 @@ const numbers = [
   { big: "85%", desc: "Aproveitamento em publicações institucionais", ctx: "SEJUS-PI · 30+ inserções/dia" },
 ];
 
-type Piece = { title: string; badge: string; client: string; src: string; copy: string; note?: string };
+type Piece = { badge: string; client: string; src: string; alt: string };
 
-const campaigns: { name: string; intro: string; pieces: Piece[] }[] = [
+const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[] }[] = [
   {
     name: "Recarga Rápida",
     intro:
       "Campanha para incentivar o uso da funcionalidade de recarga de celular dentro do App BrasilCard Cliente. Peças integradas de feed e site com o mesmo território visual.",
+    strategy:
+      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em pontos de contato diferentes.",
     pieces: [
       {
         badge: "Campanha · App BrasilCard",
         client: "BrasilCard · Cliente Final",
-        title: "Recarga Rápida — Feed Instagram",
         src: recargaFeed.url,
-        copy:
-          "Precisa de crédito no celular? Tá na palma da mão! Não dependa mais de loja física: faça a recarga do seu celular pelo App BrasilCard Cliente. Mais praticidade e liberdade!",
+        alt: "Peça de feed da campanha Recarga Rápida no Instagram",
       },
       {
         badge: "Banner · Site Institucional",
         client: "BrasilCard · Cliente Final",
-        title: "Recarga Rápida — Banner site",
         src: recargaBanner.url,
-        copy:
-          "Precisa de crédito no celular? Recarregue seu celular sem sair de casa! Use o App BrasilCard Cliente para fazer sua recarga com rapidez, segurança e zero burocracia. Faça agora no app!",
+        alt: "Banner do site institucional da campanha Recarga Rápida",
       },
     ],
   },
@@ -66,31 +64,14 @@ const campaigns: { name: string; intro: string; pieces: Piece[] }[] = [
     name: "Indique um Amigo",
     intro:
       "Campanha de indicação com regra de conversão direta — R$20 de desconto por indicação aprovada, até 55 indicações por cliente (R$1.100 acumulável).",
+    strategy:
+      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",
     pieces: [
       {
         badge: "Campanha · Indicação",
         client: "BrasilCard · Cliente Final",
-        title: "Indique um Amigo — Peça 1",
         src: indiqueCta.url,
-        copy:
-          "Indique. Seu amigo ganha o cartão. Você ganha desconto. Até R$1.100 OFF. É só usar o App BrasilCard Cliente!!",
-      },
-      {
-        badge: "Campanha · Indicação",
-        client: "BrasilCard · Cliente Final",
-        title: "Indique um Amigo — Peça 2 CTA",
-        src: indiqueBase.url,
-        copy:
-          "Quanto vale sua amizade? Aqui vale desconto na fatura. Cada amigo aprovado no BrasilCard te dá R$20 OFF. Indique no App BrasilCard Cliente.",
-      },
-      {
-        badge: "Banner · Institucional",
-        client: "BrasilCard · Institucional",
-        title: "Indique um Amigo — Banner institucional",
-        src: indiqueBanner.url,
-        copy:
-          "Economize ajudando quem você gosta! Indique amigos para o BrasilCard e ganhe R$20 de desconto por cada indicação aprovada. Já são mais de 120 mil amigos indicados. Use o app BrasilCard Cliente e acumule até R$1.100.",
-        note: '"120 mil amigos indicados" é dado institucional da marca BrasilCard, não KPI pessoal.',
+        alt: "Peça principal da campanha Indique um Amigo",
       },
     ],
   },
