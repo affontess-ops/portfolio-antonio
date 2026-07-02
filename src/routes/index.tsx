@@ -529,7 +529,7 @@ function Home() {
       <footer className="border-t border-border">
         <div className="container-page py-8 text-sm text-muted-foreground flex flex-col sm:flex-row justify-between gap-3">
           <div>© {new Date().getFullYear()} Antonio Fontes · Teresina · PI</div>
-          <div>Portfólio + Currículo · Copywriting & Marketing de Conteúdo</div>
+          <div>Portfólio · Copywriting & Marketing de Conteúdo</div>
         </div>
       </footer>
     </div>
