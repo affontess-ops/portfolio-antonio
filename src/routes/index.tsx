@@ -519,7 +519,7 @@ function Home() {
 
             <div className="grid sm:grid-cols-3 gap-4 mt-10">
               <ContactLink label="E-mail" value="comfontes@gmail.com" href="mailto:comfontes@gmail.com" />
-              <ContactLink label="Telefone · WhatsApp" value="(86) 99997-4164" href="tel:+5586999974164" />
+              <ContactLink label="WhatsApp" value="(86) 99997-4164" href="https://wa.me/5586999974164" />
               <ContactLink label="LinkedIn" value="antonio-fontes-silva" href="https://linkedin.com/in/antonio-fontes-silva" />
             </div>
           </div>
