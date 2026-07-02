@@ -3,8 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import recargaBanner from "@/assets/recarga-banner.png.asset.json";
 import recargaFeed from "@/assets/recarga-feed.png.asset.json";
 import indiqueCta from "@/assets/indique-cta.png.asset.json";
-import indiqueBase from "@/assets/indique-base.png.asset.json";
-import indiqueBanner from "@/assets/indique-banner.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -29,36 +27,34 @@ const heroStats = [
 
 const numbers = [
   { big: "15.200", desc: "Lojistas e vendedores sob comunicação direta", ctx: "19 grupos de WhatsApp · BrasilCard + BOLT" },
-  { big: "5", desc: "Campanhas sazonais executadas em 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa" },
+  { big: "5", desc: "Campanhas sazonais executadas nos últimos 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa" },
   { big: "1.400%", desc: "Crescimento de seguidores no Instagram", ctx: "De 306 para 4.586 em 8 meses · cliente privado" },
   { big: "04", desc: "Gestões municipais no Piauí atendidas", ctx: "Comunicação digital · 2019 a 2024" },
   { big: "86%", desc: "Aproveitamento em releases estratégicos", ctx: "R2 Assessoria · acima da média de mercado" },
   { big: "85%", desc: "Aproveitamento em publicações institucionais", ctx: "SEJUS-PI · 30+ inserções/dia" },
 ];
 
-type Piece = { title: string; badge: string; client: string; src: string; copy: string; note?: string };
+type Piece = { badge: string; client: string; src: string; alt: string };
 
-const campaigns: { name: string; intro: string; pieces: Piece[] }[] = [
+const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[] }[] = [
   {
     name: "Recarga Rápida",
     intro:
       "Campanha para incentivar o uso da funcionalidade de recarga de celular dentro do App BrasilCard Cliente. Peças integradas de feed e site com o mesmo território visual.",
+    strategy:
+      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em pontos de contato diferentes.",
     pieces: [
       {
         badge: "Campanha · App BrasilCard",
         client: "BrasilCard · Cliente Final",
-        title: "Recarga Rápida — Feed Instagram",
         src: recargaFeed.url,
-        copy:
-          "Precisa de crédito no celular? Tá na palma da mão! Não dependa mais de loja física: faça a recarga do seu celular pelo App BrasilCard Cliente. Mais praticidade e liberdade!",
+        alt: "Peça de feed da campanha Recarga Rápida no Instagram",
       },
       {
         badge: "Banner · Site Institucional",
         client: "BrasilCard · Cliente Final",
-        title: "Recarga Rápida — Banner site",
         src: recargaBanner.url,
-        copy:
-          "Precisa de crédito no celular? Recarregue seu celular sem sair de casa! Use o App BrasilCard Cliente para fazer sua recarga com rapidez, segurança e zero burocracia. Faça agora no app!",
+        alt: "Banner do site institucional da campanha Recarga Rápida",
       },
     ],
   },
@@ -66,31 +62,14 @@ const campaigns: { name: string; intro: string; pieces: Piece[] }[] = [
     name: "Indique um Amigo",
     intro:
       "Campanha de indicação com regra de conversão direta — R$20 de desconto por indicação aprovada, até 55 indicações por cliente (R$1.100 acumulável).",
+    strategy:
+      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",
     pieces: [
       {
         badge: "Campanha · Indicação",
         client: "BrasilCard · Cliente Final",
-        title: "Indique um Amigo — Peça 1",
         src: indiqueCta.url,
-        copy:
-          "Indique. Seu amigo ganha o cartão. Você ganha desconto. Até R$1.100 OFF. É só usar o App BrasilCard Cliente!!",
-      },
-      {
-        badge: "Campanha · Indicação",
-        client: "BrasilCard · Cliente Final",
-        title: "Indique um Amigo — Peça 2 CTA",
-        src: indiqueBase.url,
-        copy:
-          "Quanto vale sua amizade? Aqui vale desconto na fatura. Cada amigo aprovado no BrasilCard te dá R$20 OFF. Indique no App BrasilCard Cliente.",
-      },
-      {
-        badge: "Banner · Institucional",
-        client: "BrasilCard · Institucional",
-        title: "Indique um Amigo — Banner institucional",
-        src: indiqueBanner.url,
-        copy:
-          "Economize ajudando quem você gosta! Indique amigos para o BrasilCard e ganhe R$20 de desconto por cada indicação aprovada. Já são mais de 120 mil amigos indicados. Use o app BrasilCard Cliente e acumule até R$1.100.",
-        note: '"120 mil amigos indicados" é dado institucional da marca BrasilCard, não KPI pessoal.',
+        alt: "Peça principal da campanha Indique um Amigo",
       },
     ],
   },
@@ -329,7 +308,7 @@ function Home() {
               <div className="grid gap-8 md:grid-cols-2">
                 {c.pieces.map((p) => (
                   <article
-                    key={p.title}
+                    key={p.src}
                     className="rounded-xl overflow-hidden bg-surface border border-border flex flex-col group"
                   >
                     <div className="relative aspect-square overflow-hidden bg-background">
@@ -338,7 +317,7 @@ function Home() {
                       </span>
                       <img
                         src={p.src}
-                        alt={p.title}
+                        alt={p.alt}
                         loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                       />
@@ -348,19 +327,8 @@ function Home() {
                         {p.client}
                       </div>
                       <h4 className="font-display font-bold text-2xl leading-tight">
-                        {p.title}
+                        {c.name}
                       </h4>
-                      <div className="p-4 rounded-md bg-background/40 border-l-2 border-accent">
-                        <div className="text-[10px] tracking-[0.25em] uppercase text-accent mb-2 font-semibold">
-                          Copy
-                        </div>
-                        <p className="text-sm md:text-base leading-relaxed text-foreground/90 italic">
-                          “{p.copy}”
-                        </p>
-                      </div>
-                      {p.note && (
-                        <p className="text-xs text-muted-foreground italic">{p.note}</p>
-                      )}
                       <div className="mt-auto pt-4 text-xs text-muted-foreground border-t border-border">
                         Copywriting: Antonio Fontes · Design: Marcello Castro
                       </div>
@@ -368,10 +336,20 @@ function Home() {
                   </article>
                 ))}
               </div>
+
+              <div className="mt-8 p-6 md:p-8 rounded-xl bg-surface/60 border border-border max-w-4xl">
+                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3 font-semibold">
+                  Análise da estratégia
+                </div>
+                <p className="text-sm md:text-base leading-relaxed text-foreground/90">
+                  {c.strategy}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </section>
+
 
       {/* EXPERIENCE — alternating timeline */}
       <section className="container-page py-24 md:py-32 border-t border-border">
@@ -541,7 +519,7 @@ function Home() {
 
             <div className="grid sm:grid-cols-3 gap-4 mt-10">
               <ContactLink label="E-mail" value="comfontes@gmail.com" href="mailto:comfontes@gmail.com" />
-              <ContactLink label="Telefone · WhatsApp" value="(86) 99997-4164" href="tel:+5586999974164" />
+              <ContactLink label="WhatsApp" value="(86) 99997-4164" href="https://wa.me/5586999974164" />
               <ContactLink label="LinkedIn" value="antonio-fontes-silva" href="https://linkedin.com/in/antonio-fontes-silva" />
             </div>
           </div>
@@ -551,7 +529,7 @@ function Home() {
       <footer className="border-t border-border">
         <div className="container-page py-8 text-sm text-muted-foreground flex flex-col sm:flex-row justify-between gap-3">
           <div>© {new Date().getFullYear()} Antonio Fontes · Teresina · PI</div>
-          <div>Portfólio + Currículo · Copywriting & Marketing de Conteúdo</div>
+          <div>Portfólio · Copywriting & Marketing de Conteúdo</div>
         </div>
       </footer>
     </div>
