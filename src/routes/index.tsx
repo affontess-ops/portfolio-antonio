@@ -310,7 +310,7 @@ function Home() {
               <div className="grid gap-8 md:grid-cols-2">
                 {c.pieces.map((p) => (
                   <article
-                    key={p.title}
+                    key={p.src}
                     className="rounded-xl overflow-hidden bg-surface border border-border flex flex-col group"
                   >
                     <div className="relative aspect-square overflow-hidden bg-background">
@@ -319,7 +319,7 @@ function Home() {
                       </span>
                       <img
                         src={p.src}
-                        alt={p.title}
+                        alt={p.alt}
                         loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                       />
@@ -329,19 +329,8 @@ function Home() {
                         {p.client}
                       </div>
                       <h4 className="font-display font-bold text-2xl leading-tight">
-                        {p.title}
+                        {c.name}
                       </h4>
-                      <div className="p-4 rounded-md bg-background/40 border-l-2 border-accent">
-                        <div className="text-[10px] tracking-[0.25em] uppercase text-accent mb-2 font-semibold">
-                          Copy
-                        </div>
-                        <p className="text-sm md:text-base leading-relaxed text-foreground/90 italic">
-                          “{p.copy}”
-                        </p>
-                      </div>
-                      {p.note && (
-                        <p className="text-xs text-muted-foreground italic">{p.note}</p>
-                      )}
                       <div className="mt-auto pt-4 text-xs text-muted-foreground border-t border-border">
                         Copywriting: Antonio Fontes · Design: Marcello Castro
                       </div>
@@ -349,10 +338,20 @@ function Home() {
                   </article>
                 ))}
               </div>
+
+              <div className="mt-8 p-6 md:p-8 rounded-xl bg-surface/60 border border-border max-w-4xl">
+                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3 font-semibold">
+                  Análise da estratégia
+                </div>
+                <p className="text-sm md:text-base leading-relaxed text-foreground/90">
+                  {c.strategy}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </section>
+
 
       {/* EXPERIENCE — alternating timeline */}
       <section className="container-page py-24 md:py-32 border-t border-border">
