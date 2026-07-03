@@ -357,7 +357,8 @@ function Home() {
                       </div>
                     </div>
                   </article>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="mt-8 p-6 md:p-8 rounded-xl bg-surface/60 border border-border max-w-4xl">
