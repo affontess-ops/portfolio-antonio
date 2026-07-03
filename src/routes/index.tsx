@@ -332,7 +332,7 @@ function Home() {
                     key={p.src}
                     className="rounded-xl overflow-hidden bg-surface border border-border flex flex-col group"
                   >
-                    <div className="relative aspect-square overflow-hidden bg-background">
+                    <div className="relative overflow-hidden bg-background flex items-center justify-center p-4 min-h-[320px]">
                       <span className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur border border-border text-[10px] tracking-[0.2em] uppercase text-accent">
                         {p.badge}
                       </span>
@@ -340,7 +340,7 @@ function Home() {
                         src={p.src}
                         alt={p.alt}
                         loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                        className="max-w-full max-h-[560px] w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500"
                       />
                     </div>
                     <div className="p-6 md:p-8 flex-1 flex flex-col gap-4">
