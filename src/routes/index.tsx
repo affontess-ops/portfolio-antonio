@@ -48,10 +48,16 @@ const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[
       "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em pontos de contato diferentes.",
     pieces: [
       {
-        badge: "Campanha · App BrasilCard",
+        badge: "Feed · Instagram",
         client: "BrasilCard · Cliente Final",
         src: recargaFeed.url,
         alt: "Peça de feed da campanha Recarga Rápida no Instagram",
+      },
+      {
+        badge: "Feed · Instagram",
+        client: "BrasilCard · Cliente Final",
+        src: recargaFeed2.url,
+        alt: "Segunda peça de feed da campanha Recarga Rápida",
       },
       {
         badge: "Banner · Site Institucional",
@@ -69,10 +75,22 @@ const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[
       "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",
     pieces: [
       {
-        badge: "Campanha · Indicação",
+        badge: "Feed · CTA",
         client: "BrasilCard · Cliente Final",
         src: indiqueCta.url,
-        alt: "Peça principal da campanha Indique um Amigo",
+        alt: "Peça CTA da campanha Indique um Amigo",
+      },
+      {
+        badge: "Feed · Arte base",
+        client: "BrasilCard · Cliente Final",
+        src: indiqueBase.url,
+        alt: "Arte base da campanha Indique um Amigo",
+      },
+      {
+        badge: "Banner · Institucional",
+        client: "BrasilCard · Cliente Final",
+        src: indiqueBanner.url,
+        alt: "Banner institucional da campanha Indique um Amigo",
       },
     ],
   },
