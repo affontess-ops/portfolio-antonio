@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import recargaBanner from "@/assets/recarga-banner.png.asset.json";
 import recargaFeed from "@/assets/recarga-feed.png.asset.json";
+import recargaFeed2 from "@/assets/recarga-feed2.png.asset.json";
 import indiqueCta from "@/assets/indique-cta.png.asset.json";
+import indiqueBase from "@/assets/indique-base.png.asset.json";
+import indiqueBanner from "@/assets/indique-banner.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -45,10 +48,16 @@ const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[
       "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em pontos de contato diferentes.",
     pieces: [
       {
-        badge: "Campanha · App BrasilCard",
+        badge: "Feed · Instagram",
         client: "BrasilCard · Cliente Final",
         src: recargaFeed.url,
         alt: "Peça de feed da campanha Recarga Rápida no Instagram",
+      },
+      {
+        badge: "Feed · Instagram",
+        client: "BrasilCard · Cliente Final",
+        src: recargaFeed2.url,
+        alt: "Segunda peça de feed da campanha Recarga Rápida",
       },
       {
         badge: "Banner · Site Institucional",
@@ -66,10 +75,22 @@ const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[
       "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",
     pieces: [
       {
-        badge: "Campanha · Indicação",
+        badge: "Feed · CTA",
         client: "BrasilCard · Cliente Final",
         src: indiqueCta.url,
-        alt: "Peça principal da campanha Indique um Amigo",
+        alt: "Peça CTA da campanha Indique um Amigo",
+      },
+      {
+        badge: "Feed · Arte base",
+        client: "BrasilCard · Cliente Final",
+        src: indiqueBase.url,
+        alt: "Arte base da campanha Indique um Amigo",
+      },
+      {
+        badge: "Banner · Institucional",
+        client: "BrasilCard · Cliente Final",
+        src: indiqueBanner.url,
+        alt: "Banner institucional da campanha Indique um Amigo",
       },
     ],
   },
@@ -366,14 +387,12 @@ function Home() {
         </div>
 
         <div className="space-y-16">
-          {experiences.map((e, i) => (
+          {experiences.map((e) => (
             <article
               key={e.company + e.role}
-              className={`grid gap-8 lg:grid-cols-[260px_1fr] items-start ${
-                i % 2 === 1 ? "lg:grid-cols-[1fr_260px] lg:[&>*:first-child]:order-2" : ""
-              }`}
+              className="grid gap-8 lg:grid-cols-[260px_1fr] items-start"
             >
-              <div className="relative">
+              <div>
                 <div className="p-8 rounded-xl bg-surface border border-border">
                   <div className="font-display font-extrabold text-6xl text-accent leading-none">
                     {e.year}
