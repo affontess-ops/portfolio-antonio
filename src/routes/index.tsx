@@ -387,14 +387,12 @@ function Home() {
         </div>
 
         <div className="space-y-16">
-          {experiences.map((e, i) => (
+          {experiences.map((e) => (
             <article
               key={e.company + e.role}
-              className={`grid gap-8 lg:grid-cols-[260px_1fr] items-start ${
-                i % 2 === 1 ? "lg:grid-cols-[1fr_260px] lg:[&>*:first-child]:order-2" : ""
-              }`}
+              className="grid gap-8 lg:grid-cols-[260px_1fr] items-start"
             >
-              <div className="relative">
+              <div>
                 <div className="p-8 rounded-xl bg-surface border border-border">
                   <div className="font-display font-extrabold text-6xl text-accent leading-none">
                     {e.year}
