@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import recargaBanner from "@/assets/recarga-banner.png.asset.json";
 import recargaFeed from "@/assets/recarga-feed.png.asset.json";
+import recargaFeed2 from "@/assets/recarga-feed2.png.asset.json";
 import indiqueCta from "@/assets/indique-cta.png.asset.json";
+import indiqueBase from "@/assets/indique-base.png.asset.json";
+import indiqueBanner from "@/assets/indique-banner.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Home,
