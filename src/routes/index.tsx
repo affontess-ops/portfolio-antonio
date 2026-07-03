@@ -327,10 +327,12 @@ function Home() {
               </div>
 
               <div className="grid gap-8 md:grid-cols-2">
-                {c.pieces.map((p) => (
+                {c.pieces.map((p) => {
+                  const isBanner = p.badge.toLowerCase().includes("banner");
+                  return (
                   <article
                     key={p.src}
-                    className="rounded-xl overflow-hidden bg-surface border border-border flex flex-col group"
+                    className={`rounded-xl overflow-hidden bg-surface border border-border flex flex-col group ${isBanner ? "md:col-span-2" : ""}`}
                   >
                     <div className="relative overflow-hidden bg-background flex items-center justify-center p-4 min-h-[320px]">
                       <span className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur border border-border text-[10px] tracking-[0.2em] uppercase text-accent">
@@ -355,7 +357,8 @@ function Home() {
                       </div>
                     </div>
                   </article>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="mt-8 p-6 md:p-8 rounded-xl bg-surface/60 border border-border max-w-4xl">
