@@ -30,11 +30,11 @@ const heroStats = [
 
 const numbers = [
   { big: "15.200", desc: "Lojistas e vendedores sob comunicação direta", ctx: "19 grupos de WhatsApp · BrasilCard + BOLT" },
+  { big: "5x", desc: "Aumento na conversão de campanhas sazonais", ctx: "De 1% para 5% no WhatsApp Business · jan a mai/2026" },
   { big: "5", desc: "Campanhas sazonais executadas nos últimos 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa" },
   { big: "1.400%", desc: "Crescimento de seguidores no Instagram", ctx: "De 306 para 4.586 em 8 meses · cliente privado" },
-  { big: "04", desc: "Gestões municipais no Piauí atendidas", ctx: "Comunicação digital · 2019 a 2024" },
+  { big: "04", desc: "Gestões municipais no Piauí atendidas", ctx: "Comunicação digital · 2019 a 2025" },
   { big: "86%", desc: "Aproveitamento em releases estratégicos", ctx: "R2 Assessoria · acima da média de mercado" },
-  { big: "85%", desc: "Aproveitamento em publicações institucionais", ctx: "SEJUS-PI · 30+ inserções/dia" },
 ];
 
 type Piece = { badge: string; client: string; src: string; alt: string };
