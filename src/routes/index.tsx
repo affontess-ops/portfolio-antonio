@@ -24,7 +24,7 @@ const heroTags = [
 
 const heroStats = [
   { num: "10", suf: "+", label: "Anos de experiência" },
-  { num: "15.2", suf: "k", label: "Lojistas impactados" },
+  { num: "16.4", suf: "k", label: "Lojistas impactados" },
   { num: "19", suf: "", label: "Grupos de WhatsApp" },
 ];
 
