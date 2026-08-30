@@ -24,12 +24,12 @@ const heroTags = [
 
 const heroStats = [
   { num: "10", suf: "+", label: "Anos de experiência" },
-  { num: "15.2", suf: "k", label: "Lojistas impactados" },
+  { num: "16.4", suf: "k", label: "Lojistas impactados" },
   { num: "19", suf: "", label: "Grupos de WhatsApp" },
 ];
 
 const numbers = [
-  { big: "15.200", desc: "Lojistas e vendedores sob comunicação direta", ctx: "19 grupos de WhatsApp · BrasilCard + BOLT" },
+  { big: "16.400", desc: "Lojistas e vendedores impactados nos grupos de WhatsApp", ctx: "19 grupos de WhatsApp · BrasilCard + BOLT" },
   { big: "5x", desc: "Aumento na conversão de campanhas sazonais", ctx: "De 1% para 5% no WhatsApp Business · jan a mai/2026" },
   { big: "5", desc: "Campanhas sazonais executadas nos últimos 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa" },
   { big: "1.400%", desc: "Crescimento de seguidores no Instagram", ctx: "De 306 para 4.586 em 8 meses · cliente privado" },
@@ -106,13 +106,13 @@ const experiences: Exp[] = [
     role: "Assistente de Comunicação e Marketing",
     bullets: [
       "Contribuí para o aumento da conversão de campanhas sazonais de kits promocionais, que evoluiu de 1% para 5% (WhatsApp Business) e de 1% para 4% (Google Forms) entre janeiro e maio de 2026, via otimização de briefing e copy.",
-      "Planejo e executo campanhas de incentivo para base de 15.200+ lojistas e vendedores, incluindo bonificação por ativação de cartões (R$8 a R$15 por cartão, com bônus total superior a R$1.500 para alto volume), crediário com bônus de 1% sobre a primeira compra e campanha de indicação (R$20 por indicação, até 55 por cliente).",
+      "Planejo e executo campanhas de incentivo para base de cerca de 16.400 lojistas e vendedores, incluindo bonificação por ativação de cartões (R$8 a R$15 por cartão, com bônus total superior a R$1.500 para alto volume), crediário com bônus de 1% sobre a primeira compra e campanha de indicação (R$20 por indicação, até 55 por cliente).",
       "Organizei, administrei e executei 5 campanhas sazonais em 6 meses (Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa), produzindo briefings, copy e kits de campanha para públicos de alcance nacional.",
-      "Gerencio comunicação em 19 grupos de WhatsApp corporativo (15.200+ contatos), centralizando distribuição de conteúdo, briefings e materiais de campanha.",
+      "Gerencio comunicação em 19 grupos de WhatsApp corporativo (cerca de 16.400 lojistas e vendedores impactados), centralizando distribuição de conteúdo, briefings e materiais de campanha.",
     ],
     kpis: [
       { v: "5x", l: "Conversão sazonal" },
-      { v: "15.2k", l: "Lojistas atendidos" },
+      { v: "16.4k", l: "Lojistas impactados" },
       { v: "19", l: "Grupos de WhatsApp" },
     ],
   },
@@ -207,10 +207,31 @@ function Home() {
           </h1>
 
           <p className="mt-10 text-lg leading-relaxed text-muted-foreground max-w-xl border-l-2 border-accent pl-5">
-            Jornalista e mestre em Comunicação (UFPI). Mais de 10 anos desenvolvendo
-            copywriting para campanhas, redes sociais, WhatsApp corporativo e comunicação
-            institucional. Hoje na BrasilCard e BOLT, com alcance nacional.
+            Atuo há mais de 10 anos em Marketing e Comunicação, desenvolvendo estratégias,
+            conteúdos e campanhas orientados a resultados. Minha experiência combina
+            criatividade, estratégia e dados, com resultados como 1.400% de crescimento em
+            audiência digital e até 5x mais conversão em campanhas sazonais. Sou mestre em
+            Comunicação pela UFPI.
           </p>
+
+          <div className="flex flex-wrap gap-3 mt-8">
+            <a
+              href="/antonio-fontes-curriculo.pdf"
+              download
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar currículo (PDF)
+            </a>
+            <a
+              href="/antonio-fontes-portfolio.pptx"
+              download
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar portfólio (PPTX)
+            </a>
+          </div>
 
           <div className="flex flex-wrap gap-2 mt-8 max-w-2xl">
             {heroTags.map((t) => (
