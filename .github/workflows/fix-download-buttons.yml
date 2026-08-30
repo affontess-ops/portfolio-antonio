@@ -29,34 +29,53 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           p = Path('src/routes/index.tsx')
           s = p.read_text(encoding='utf-8')
 
-          replacements = {
-              '"Marketing de Conteúdo",\n  "Planejamento Editorial"': '"Marketing Digital",\n  "Planejamento Editorial"',
-              'Copywriting · Marketing de Conteúdo': 'Copywriting · Marketing Digital',
-              'Cada cargo tem um {" "}\n            <em className="not-italic italic text-accent">número</em>{" "}\n            que prova o impacto. Todos rastreáveis, nenhum inventado.': 'Estratégia se mede pelo <em className="not-italic italic text-accent">impacto.</em> Aqui, cada resultado tem um indicador por trás.',
-              'Peças que <em className="italic not-italic text-accent italic">assinei</em>\n              <br /> na BrasilCard e BOLT.': 'Campanhas e conteúdos desenvolvidos para <em className="italic not-italic text-accent italic">BrasilCard.</em>',
-              '  intro: string;\n  strategy: string;\n  pieces: Piece[]': '  intro: string;\n  strategy: string;\n  channels: string[];\n  indicators: string[];\n  results?: { label: string; value: string }[];\n  pieces: Piece[]',
-          }
-          for old, new in replacements.items():
-              if old in s:
-                  s = s.replace(old, new, 1)
+          s = s.replace('"Marketing de Conteúdo",\n  "Planejamento Editorial"', '"Marketing Digital",\n  "Planejamento Editorial"', 1)
+          s = s.replace('Copywriting · Marketing de Conteúdo', 'Copywriting · Marketing Digital', 1)
 
-          old_recarga = '''    strategy:\n      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em pontos de contato diferentes.",\n    pieces: ['''
-          new_recarga = '''    strategy:\n      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em diferentes pontos de contato.",\n    channels: ["Instagram", "Site", "App"],\n    indicators: ["Cliques para o site", "Acessos ao App", "Alcance no Instagram", "Interações com a publicação", "Conversões"],\n    results: [\n      { label: "Cliques", value: "12.400" },\n      { label: "CTR", value: "35%" },\n      { label: "Conversões", value: "2.800" },\n    ],\n    pieces: ['''
-          if old_recarga in s:
-              s = s.replace(old_recarga, new_recarga, 1)
+          old_sentence = 'Todos rastreáveis, nenhum inventado.'
+          if old_sentence in s:
+              s = s.replace(old_sentence, 'Estratégia se mede pelo <em className="not-italic italic text-accent">impacto.</em> Aqui, cada resultado tem um indicador por trás.', 1)
+          else:
+              s = re.sub(r'Cada cargo tem um \{" "\}.*?prova o impacto\.', 'Estratégia se mede pelo <em className="not-italic italic text-accent">impacto.</em> Aqui, cada resultado tem um indicador por trás.', s, count=1, flags=re.S)
 
-          old_indique = '''    strategy:\n      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",\n    pieces: ['''
-          new_indique = '''    strategy:\n      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",\n    channels: ["Instagram", "WhatsApp", "Site", "App"],\n    indicators: ["Cliques no CTA", "Compartilhamentos", "Indicações realizadas", "Conversões", "Novos usuários"],\n    pieces: ['''
-          if old_indique in s:
-              s = s.replace(old_indique, new_indique, 1)
+          s = re.sub(r'Peças que\s*<em className="italic not-italic text-accent italic">assinei</em>\s*<br /> na BrasilCard e BOLT\.', 'Campanhas e conteúdos desenvolvidos para <em className="italic not-italic text-accent italic">BrasilCard.</em>', s, count=1)
 
-          marker = '''            <div className="grid gap-8 md:grid-cols-2">\n                {c.pieces.map((p) => {'''
-          case_block = '''            <div className="grid lg:grid-cols-[1fr_1fr] gap-8 mb-8">\n              <div className="p-6 md:p-8 rounded-xl bg-surface border border-border">\n                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4 font-semibold">Canais</div>\n                <div className="flex flex-wrap gap-2">{c.channels.map((channel) => <span key={channel} className="px-3 py-1.5 rounded-full border border-border text-xs">{channel}</span>)}</div>\n                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mt-8 mb-4 font-semibold">Indicadores</div>\n                <div className="grid sm:grid-cols-2 gap-3">{c.indicators.map((indicator) => <div key={indicator} className="text-sm text-muted-foreground">{indicator}</div>)}</div>\n                {c.results && <><div className="text-[10px] tracking-[0.3em] uppercase text-accent mt-8 mb-4 font-semibold">Resultados</div><div className="grid sm:grid-cols-3 gap-3">{c.results.map((result) => <div key={result.label} className="p-4 rounded-lg border border-border"><div className="font-display font-extrabold text-2xl text-accent">{result.value}</div><div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-2">{result.label}</div></div>)}</div></>}\n              </div>\n              <div className="p-6 md:p-8 rounded-xl bg-surface/60 border border-border">\n                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3 font-semibold">Objetivo e estratégia</div>\n                <p className="text-sm md:text-base leading-relaxed text-foreground/90">{c.strategy}</p>\n              </div>\n            </div>\n\n            <div className="grid gap-8 md:grid-cols-2">\n                {c.pieces.map((p) => {'''
-          if marker in s and 'Objetivo e estratégia' not in s:
-              s = s.replace(marker, case_block, 1)
+          s = s.replace('  intro: string;\n  strategy: string;\n  pieces: Piece[]', '  intro: string;\n  strategy: string;\n  channels: string[];\n  indicators: string[];\n  results?: { label: string; value: string }[];\n  pieces: Piece[]', 1)
+
+          if 'name: "Recarga Rápida"' in s and 'value: "12.400"' not in s:
+              target = '      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em pontos de contato diferentes.",\n    pieces: ['
+              replacement = '      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em diferentes pontos de contato.",\n    channels: ["Instagram", "Site", "App"],\n    indicators: ["Cliques para o site", "Acessos ao App", "Alcance no Instagram", "Interações com a publicação", "Conversões"],\n    results: [\n      { label: "Cliques", value: "12.400" },\n      { label: "CTR", value: "35%" },\n      { label: "Conversões", value: "2.800" },\n    ],\n    pieces: ['
+              s = s.replace(target, replacement, 1)
+
+          if 'name: "Indique um Amigo"' in s and 'indicators: ["Cliques no CTA"' not in s:
+              target = '      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",\n    pieces: ['
+              replacement = '      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",\n    channels: ["Instagram", "WhatsApp", "Site", "App"],\n    indicators: ["Cliques no CTA", "Compartilhamentos", "Indicações realizadas", "Conversões", "Novos usuários"],\n    pieces: ['
+              s = s.replace(target, replacement, 1)
+
+          # Replace the existing campaign rendering area with a case summary block.
+          if 'Objetivo e estratégia' not in s:
+              marker = '            <div className="grid gap-8 md:grid-cols-2">{c.pieces.map((p) => {'
+              block = '''            <div className="grid lg:grid-cols-[1fr_1fr] gap-8 mb-8">
+              <div className="p-6 md:p-8 rounded-xl bg-surface border border-border">
+                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4 font-semibold">Canais</div>
+                <div className="flex flex-wrap gap-2">{c.channels.map((channel) => <span key={channel} className="px-3 py-1.5 rounded-full border border-border text-xs">{channel}</span>)}</div>
+                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mt-8 mb-4 font-semibold">Indicadores</div>
+                <div className="grid sm:grid-cols-2 gap-3">{c.indicators.map((indicator) => <div key={indicator} className="text-sm text-muted-foreground">{indicator}</div>)}</div>
+                {c.results && <><div className="text-[10px] tracking-[0.3em] uppercase text-accent mt-8 mb-4 font-semibold">Resultados</div><div className="grid sm:grid-cols-3 gap-3">{c.results.map((result) => <div key={result.label} className="p-4 rounded-lg border border-border"><div className="font-display font-extrabold text-2xl text-accent">{result.value}</div><div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-2">{result.label}</div></div>)}</div></>}
+              </div>
+              <div className="p-6 md:p-8 rounded-xl bg-surface/60 border border-border">
+                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3 font-semibold">Objetivo e estratégia</div>
+                <p className="text-sm md:text-base leading-relaxed text-foreground/90">{c.strategy}</p>
+              </div>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2">{c.pieces.map((p) => {'''
+              if marker in s:
+                  s = s.replace(marker, block, 1)
 
           p.write_text(s, encoding='utf-8')
           PY
@@ -73,6 +92,7 @@ jobs:
           grep -q '12.400' src/routes/index.tsx
           grep -q '35%' src/routes/index.tsx
           grep -q '2.800' src/routes/index.tsx
+          grep -q 'Objetivo e estratégia' src/routes/index.tsx
 
       - name: Commit only when files changed
         run: |
