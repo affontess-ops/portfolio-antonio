@@ -1,15 +1,13 @@
 name: Fix portfolio downloads
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   fix-downloads:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,11 +18,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libreoffice
 
-      - name: Create portfolio PDF from the original PPTX
+      - name: Create portfolio PDF from original PPTX
         run: |
-          mkdir -p public
-          libreoffice --headless --convert-to pdf --outdir public public/antonio-fontes-portfolio.pptx
-          mv public/antonio-fontes-portfolio.pdf public/antonio-fontes-portfolio.pdf
+          mkdir -p /tmp/portfolio-pdf
+          libreoffice --headless --convert-to pdf --outdir /tmp/portfolio-pdf public/antonio-fontes-portfolio.pptx
+          cp /tmp/portfolio-pdf/antonio-fontes-portfolio.pdf public/antonio-fontes-portfolio.pdf
 
       - name: Update download buttons
         run: |
@@ -32,33 +30,42 @@ jobs:
           from pathlib import Path
           p = Path('src/routes/index.tsx')
           s = p.read_text(encoding='utf-8')
-          old = '''          <div className="flex flex-wrap gap-3 mt-8">\n            <a\n              href="/antonio-fontes-curriculo.pdf"\n              download\n              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity"\n            >\n              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n              Baixar currículo (PDF)\n            </a>\n            <a\n              href="/antonio-fontes-portfolio.pptx"\n              download\n              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors"\n            >\n              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n              Baixar portfólio (PPTX)\n            </a>\n          </div>'''
-          new = '''          <div className="flex flex-wrap gap-3 mt-8">\n            <a\n              href="/antonio-fontes-portfolio.pdf"\n              download="antonio-fontes-portfolio.pdf"\n              type="application/pdf"\n              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity"\n            >\n              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n              Baixar portfólio (PDF)\n            </a>\n            <a\n              href="/antonio-fontes-portfolio.pptx"\n              download="antonio-fontes-portfolio.pptx"\n              type="application/vnd.openxmlformats-officedocument.presentationml.presentation"\n              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors"\n            >\n              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n              Baixar portfólio (PPTX)\n            </a>\n          </div>'''
-          if old not in s:
-              raise SystemExit('Botões esperados não encontrados em src/routes/index.tsx')
-          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          start = s.index('          <div className="flex flex-wrap gap-3 mt-8">')
+          end = s.index('          </div>', start) + len('          </div>')
+          new = '''          <div className="flex flex-wrap gap-3 mt-8">
+            <a
+              href="/antonio-fontes-portfolio.pdf"
+              download="antonio-fontes-portfolio.pdf"
+              type="application/pdf"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar portfólio (PDF)
+            </a>
+            <a
+              href="/antonio-fontes-portfolio.pptx"
+              download="antonio-fontes-portfolio.pptx"
+              type="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2 2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar portfólio (PPTX)
+            </a>
+          </div>'''
+          p.write_text(s[:start] + new + s[end:], encoding='utf-8')
           PY
 
-      - name: Verify files
+      - name: Verify
         run: |
           test -f public/antonio-fontes-portfolio.pdf
           grep -q 'Baixar portfólio (PDF)' src/routes/index.tsx
           grep -q 'download="antonio-fontes-portfolio.pptx"' src/routes/index.tsx
-          grep -q 'Baixar currículo (PDF)' src/routes/index.tsx && exit 1 || true
+          ! grep -q 'Baixar currículo (PDF)' src/routes/index.tsx
 
-      - name: Commit changes
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/routes/index.tsx public/antonio-fontes-portfolio.pdf
-          git commit -m "fix: downloads do portfolio" || exit 0
+          git commit -m "fix: downloads do portfolio"
           git push
-
-      - name: Remove temporary workflow
-        if: always()
-        run: |
-          git rm -f .github/workflows/fix-download-buttons.yml || true
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: remove temporary download fix workflow" || true
-          git push || true
