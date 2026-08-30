@@ -108,11 +108,11 @@ const experiences: Exp[] = [
       "Contribuí para o aumento da conversão de campanhas sazonais de kits promocionais, que evoluiu de 1% para 5% (WhatsApp Business) e de 1% para 4% (Google Forms) entre janeiro e maio de 2026, via otimização de briefing e copy.",
       "Planejo e executo campanhas de incentivo para base de cerca de 16.400 lojistas e vendedores, incluindo bonificação por ativação de cartões (R$8 a R$15 por cartão, com bônus total superior a R$1.500 para alto volume), crediário com bônus de 1% sobre a primeira compra e campanha de indicação (R$20 por indicação, até 55 por cliente).",
       "Organizei, administrei e executei 5 campanhas sazonais em 6 meses (Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa), produzindo briefings, copy e kits de campanha para públicos de alcance nacional.",
-      "Gerencio comunicação em 19 grupos de WhatsApp corporativo (15.200+ contatos), centralizando distribuição de conteúdo, briefings e materiais de campanha.",
+      "Gerencio comunicação em 19 grupos de WhatsApp corporativo (cerca de 16.400 lojistas e vendedores impactados), centralizando distribuição de conteúdo, briefings e materiais de campanha.",
     ],
     kpis: [
       { v: "5x", l: "Conversão sazonal" },
-      { v: "15.2k", l: "Lojistas atendidos" },
+      { v: "16.4k", l: "Lojistas impactados" },
       { v: "19", l: "Grupos de WhatsApp" },
     ],
   },
