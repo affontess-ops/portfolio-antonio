@@ -215,23 +215,25 @@ function Home() {
           </p>
 
           <div className="flex flex-wrap gap-3 mt-8">
-            <a
-              href="/antonio-fontes-curriculo.pdf"
-              download
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Baixar currículo (PDF)
-            </a>
-            <a
-              href="/antonio-fontes-portfolio.pptx"
-              download
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Baixar portfólio (PPTX)
-            </a>
-          </div>
+  <a
+    href="/antonio-fontes-portfolio.pdf"
+    download="antonio-fontes-portfolio.pdf"
+    type="application/pdf"
+    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity"
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Baixar portfólio (PDF)
+  </a>
+  <a
+    href="/antonio-fontes-portfolio.pptx"
+    download="antonio-fontes-portfolio.pptx"
+    type="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors"
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2 2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Baixar portfólio (PPTX)
+  </a>
+</div>
 
           <div className="flex flex-wrap gap-2 mt-8 max-w-2xl">
             {heroTags.map((t) => (
