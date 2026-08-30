@@ -1,6 +1,6 @@
-import html2pdf from "html2pdf.js";
-
 export async function exportPortfolioPdf() {
+  const html2pdf = (await import("html2pdf.js")).default;
+
   const element = document.getElementById("portfolio-page");
   if (!element) throw new Error("Portfolio element not found");
 
@@ -30,7 +30,7 @@ export async function exportPortfolioPdf() {
       html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff", logging: false },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       pagebreak: { mode: ["css", "legacy"] },
-    }).from(clone).save();
+    } as never).from(clone).save();
   } finally {
     wrapper.remove();
   }
