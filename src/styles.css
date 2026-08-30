@@ -30,7 +30,6 @@
 }
 
 :root {
-  /* Deep navy background matching reference */
   --background: oklch(0.14 0.10 268);
   --foreground: oklch(0.98 0.005 250);
   --surface: oklch(0.20 0.11 268);
@@ -38,12 +37,8 @@
   --border: oklch(1 0 0 / 10%);
   --muted: oklch(0.28 0.05 265);
   --muted-foreground: oklch(0.78 0.03 250);
-
-  /* Light section palette (Resultados) */
   --light: oklch(0.97 0.015 260);
   --light-foreground: oklch(0.16 0.10 268);
-
-  /* Bright royal blue accent (reference) */
   --primary: oklch(0.55 0.28 265);
   --primary-foreground: oklch(0.98 0.005 250);
   --accent: oklch(0.58 0.29 265);
@@ -85,4 +80,16 @@
   white-space: nowrap;
 }
 
-.pdf-exclude { display: none !important; }
+/* O botão PDF permanece visível no site e é removido pelo gerador antes da captura. */
+.pdf-exclude { display: flex !important; }
+
+/* O download PPTX não faz parte da interface solicitada. */
+a[href="/antonio-fontes-portfolio.pptx"] { display: none !important; }
+
+/* Elementos interativos não devem aparecer em documentos impressos. */
+@media print {
+  .pdf-exclude,
+  a[href="/antonio-fontes-portfolio.pptx"] {
+    display: none !important;
+  }
+}
