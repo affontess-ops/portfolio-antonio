@@ -207,10 +207,31 @@ function Home() {
           </h1>
 
           <p className="mt-10 text-lg leading-relaxed text-muted-foreground max-w-xl border-l-2 border-accent pl-5">
-            Jornalista e mestre em Comunicação (UFPI). Mais de 10 anos desenvolvendo
-            copywriting para campanhas, redes sociais, WhatsApp corporativo e comunicação
-            institucional. Hoje na BrasilCard e BOLT, com alcance nacional.
+            Atuo há mais de 10 anos em Marketing e Comunicação, desenvolvendo estratégias,
+            conteúdos e campanhas orientados a resultados. Minha experiência combina
+            criatividade, estratégia e dados, com resultados como 1.400% de crescimento em
+            audiência digital e até 5x mais conversão em campanhas sazonais. Sou mestre em
+            Comunicação pela UFPI.
           </p>
+
+          <div className="flex flex-wrap gap-3 mt-8">
+            <a
+              href="/antonio-fontes-curriculo.pdf"
+              download
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar currículo (PDF)
+            </a>
+            <a
+              href="/antonio-fontes-portfolio.pptx"
+              download
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar portfólio (PPTX)
+            </a>
+          </div>
 
           <div className="flex flex-wrap gap-2 mt-8 max-w-2xl">
             {heroTags.map((t) => (
