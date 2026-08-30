@@ -30,7 +30,7 @@ export async function exportPortfolioPdf() {
       html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff", logging: false },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       pagebreak: { mode: ["css", "legacy"] },
-    } as Parameters<ReturnType<typeof html2pdf>["set"]>[0]).from(clone).save();
+    } as never).from(clone).save();
   } finally {
     wrapper.remove();
   }
