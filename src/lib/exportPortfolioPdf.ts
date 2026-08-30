@@ -1,6 +1,6 @@
-export async function exportPortfolioPdf() {
-  const html2pdf = (await import("html2pdf.js")).default;
+import html2pdf from "html2pdf.js";
 
+export async function exportPortfolioPdf() {
   const element = document.getElementById("portfolio-page");
   if (!element) throw new Error("Portfolio element not found");
 
@@ -19,34 +19,42 @@ export async function exportPortfolioPdf() {
   wrapper.style.left = "-100000px";
   wrapper.style.top = "0";
   wrapper.style.width = "1200px";
-  wrapper.style.background = "var(--background)";
+  wrapper.style.background = "#141a35";
   wrapper.style.zIndex = "-1";
   wrapper.appendChild(clone);
   document.body.appendChild(wrapper);
 
   try {
     await document.fonts.ready;
-    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 
-    await html2pdf().set({
-      margin: 0,
-      filename: "antonio-fontes-portfolio.pdf",
-      image: { type: "jpeg", quality: 1 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        allowTaint: false,
-        backgroundColor: "#141a35",
-        logging: false,
-        imageTimeout: 15000,
-        windowWidth: 1200,
-      },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait", compress: true },
-      pagebreak: {
-        mode: ["css", "legacy"],
-        avoid: ["h1", "h2", "h3", "img", ".border", ".rounded-xl"],
-      },
-    } as never).from(clone).save();
+    await html2pdf()
+      .set({
+        margin: 0,
+        filename: "antonio-fontes-portfolio.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          allowTaint: false,
+          backgroundColor: "#141a35",
+          logging: false,
+          imageTimeout: 15000,
+          windowWidth: 1200,
+        },
+        jsPDF: {
+          unit: "mm",
+          format: "a4",
+          orientation: "portrait",
+          compress: true,
+        },
+        pagebreak: {
+          mode: ["css", "legacy"],
+          avoid: ["h1", "h2", "h3", "img", ".rounded-xl"],
+        },
+      })
+      .from(clone)
+      .save();
   } finally {
     wrapper.remove();
   }
