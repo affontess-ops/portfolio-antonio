@@ -234,17 +234,6 @@ function Home() {
     Baixar portfólio (PPTX)
   </a>
 </div>
-
-          <div className="flex flex-wrap gap-2 mt-8 max-w-2xl">
-            {heroTags.map((t) => (
-              <span
-                key={t}
-                className="px-4 py-2 border border-border rounded-full text-[10px] tracking-[0.18em] uppercase font-medium"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
         </div>
 
         <div className="relative bg-surface min-h-[420px] lg:min-h-0 overflow-hidden">
