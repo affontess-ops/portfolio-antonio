@@ -84,3 +84,5 @@
   pointer-events: none;
   white-space: nowrap;
 }
+
+.pdf-exclude { display: none !important; }
