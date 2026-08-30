@@ -29,7 +29,7 @@ const heroStats = [
 ];
 
 const numbers = [
-  { big: "15.200", desc: "Lojistas e vendedores sob comunicação direta", ctx: "19 grupos de WhatsApp · BrasilCard + BOLT" },
+  { big: "16.400", desc: "Lojistas e vendedores impactados nos grupos de WhatsApp", ctx: "19 grupos de WhatsApp · BrasilCard + BOLT" },
   { big: "5x", desc: "Aumento na conversão de campanhas sazonais", ctx: "De 1% para 5% no WhatsApp Business · jan a mai/2026" },
   { big: "5", desc: "Campanhas sazonais executadas nos últimos 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa" },
   { big: "1.400%", desc: "Crescimento de seguidores no Instagram", ctx: "De 306 para 4.586 em 8 meses · cliente privado" },
@@ -106,7 +106,7 @@ const experiences: Exp[] = [
     role: "Assistente de Comunicação e Marketing",
     bullets: [
       "Contribuí para o aumento da conversão de campanhas sazonais de kits promocionais, que evoluiu de 1% para 5% (WhatsApp Business) e de 1% para 4% (Google Forms) entre janeiro e maio de 2026, via otimização de briefing e copy.",
-      "Planejo e executo campanhas de incentivo para base de 15.200+ lojistas e vendedores, incluindo bonificação por ativação de cartões (R$8 a R$15 por cartão, com bônus total superior a R$1.500 para alto volume), crediário com bônus de 1% sobre a primeira compra e campanha de indicação (R$20 por indicação, até 55 por cliente).",
+      "Planejo e executo campanhas de incentivo para base de cerca de 16.400 lojistas e vendedores, incluindo bonificação por ativação de cartões (R$8 a R$15 por cartão, com bônus total superior a R$1.500 para alto volume), crediário com bônus de 1% sobre a primeira compra e campanha de indicação (R$20 por indicação, até 55 por cliente).",
       "Organizei, administrei e executei 5 campanhas sazonais em 6 meses (Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa), produzindo briefings, copy e kits de campanha para públicos de alcance nacional.",
       "Gerencio comunicação em 19 grupos de WhatsApp corporativo (15.200+ contatos), centralizando distribuição de conteúdo, briefings e materiais de campanha.",
     ],
