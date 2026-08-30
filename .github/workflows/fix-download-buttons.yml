@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  fix-downloads:
+  update-portfolio:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,47 +19,87 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libreoffice
 
-      - name: Create portfolio PDF from original PPTX
-        run: |
-          mkdir -p /tmp/portfolio-pdf
-          libreoffice --headless --convert-to pdf --outdir /tmp/portfolio-pdf public/antonio-fontes-portfolio.pptx
-          cp /tmp/portfolio-pdf/antonio-fontes-portfolio.pdf public/antonio-fontes-portfolio.pdf
-
-      - name: Update portfolio content
+      - name: Apply portfolio changes
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
+
           p = Path('src/routes/index.tsx')
           s = p.read_text(encoding='utf-8')
 
-          s = s.replace('"Marketing de Conteúdo",\n  "Planejamento Editorial"', '"Marketing Digital",\n  "Planejamento Editorial"', 1)
-          s = s.replace('Copywriting · Marketing de Conteúdo', 'Copywriting · Marketing Digital', 1)
+          s = s.replace('Copywriting · Marketing de Conteúdo', 'Copywriting · Marketing Digital')
+          s = s.replace('"Marketing de Conteúdo",\n  "Planejamento Editorial"', '"Marketing Digital",\n  "Planejamento Editorial"')
 
-          old_sentence = 'Todos rastreáveis, nenhum inventado.'
-          if old_sentence in s:
-              s = s.replace(old_sentence, 'Estratégia se mede pelo <em className="not-italic italic text-accent">impacto.</em> Aqui, cada resultado tem um indicador por trás.', 1)
-          else:
-              s = re.sub(r'Cada cargo tem um \{" "\}.*?prova o impacto\.', 'Estratégia se mede pelo <em className="not-italic italic text-accent">impacto.</em> Aqui, cada resultado tem um indicador por trás.', s, count=1, flags=re.S)
+          s = re.sub(
+              r'Cada cargo tem um \{" "\}.*?que prova o impacto\. Todos rastreáveis, nenhum inventado\.',
+              'Estratégia se mede pelo <em className="not-italic italic text-accent">impacto.</em> Aqui, cada resultado tem um indicador por trás.',
+              s,
+              count=1,
+              flags=re.S,
+          )
+          s = s.replace(
+              'Cada cargo tem um número que prova o impacto. Todos rastreáveis, nenhum inventado.',
+              'Estratégia se mede pelo impacto. Aqui, cada resultado tem um indicador por trás.'
+          )
 
-          s = re.sub(r'Peças que\s*<em className="italic not-italic text-accent italic">assinei</em>\s*<br /> na BrasilCard e BOLT\.', 'Campanhas e conteúdos desenvolvidos para <em className="italic not-italic text-accent italic">BrasilCard.</em>', s, count=1)
+          s = re.sub(
+              r'Peças que\s*<em[^>]*>assinei</em>\s*<br\s*/?>\s*na BrasilCard e BOLT\.',
+              'Campanhas e conteúdos desenvolvidos para <em className="italic not-italic text-accent">BrasilCard.</em>',
+              s,
+              count=1,
+              flags=re.S,
+          )
 
-          s = s.replace('  intro: string;\n  strategy: string;\n  pieces: Piece[]', '  intro: string;\n  strategy: string;\n  channels: string[];\n  indicators: string[];\n  results?: { label: string; value: string }[];\n  pieces: Piece[]', 1)
+          s = s.replace(
+              'type Piece = { badge: string; client: string; src: string; alt: string };',
+              'type Piece = { badge: string; client: string; src: string; alt: string };\n' 
+          )
 
-          if 'name: "Recarga Rápida"' in s and 'value: "12.400"' not in s:
-              target = '      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em pontos de contato diferentes.",\n    pieces: ['
-              replacement = '      "Estratégia focada em reduzir fricção percebida: linguagem direta, gatilho de conveniência (‘na palma da mão’) e call-to-action único para migrar o hábito da loja física para o app. Peças de feed e banner mantêm consistência visual para reforçar reconhecimento em diferentes pontos de contato.",\n    channels: ["Instagram", "Site", "App"],\n    indicators: ["Cliques para o site", "Acessos ao App", "Alcance no Instagram", "Interações com a publicação", "Conversões"],\n    results: [\n      { label: "Cliques", value: "12.400" },\n      { label: "CTR", value: "35%" },\n      { label: "Conversões", value: "2.800" },\n    ],\n    pieces: ['
-              s = s.replace(target, replacement, 1)
+          s = s.replace(
+              'const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[] }[] = [',
+              'const campaigns: { name: string; intro: string; strategy: string; channels: string[]; indicators: string[]; results?: { label: string; value: string }[]; pieces: Piece[] }[] = ['
+          )
 
-          if 'name: "Indique um Amigo"' in s and 'indicators: ["Cliques no CTA"' not in s:
-              target = '      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",\n    pieces: ['
-              replacement = '      "Estratégia de crescimento orgânico via prova social e recompensa mensurável. A mecânica é apresentada de forma explícita (valor por indicação e teto acumulável) para eliminar dúvidas na conversão, e o tom conversacional aproxima o benefício da rotina do cliente, transformando o próprio usuário em canal de aquisição.",\n    channels: ["Instagram", "WhatsApp", "Site", "App"],\n    indicators: ["Cliques no CTA", "Compartilhamentos", "Indicações realizadas", "Conversões", "Novos usuários"],\n    pieces: ['
-              s = s.replace(target, replacement, 1)
+          recarga_anchor = '''    pieces: [
+      {
+        badge: "Feed · Instagram",
+        client: "BrasilCard · Cliente Final",
+        src: recargaFeed.url,'''
+          recarga_insert = '''    channels: ["Instagram", "Site", "App"],
+    indicators: ["Cliques para o site", "Acessos ao App", "Alcance no Instagram", "Interações com a publicação", "Conversões"],
+    results: [
+      { label: "Cliques", value: "12.400" },
+      { label: "CTR", value: "35%" },
+      { label: "Conversões", value: "2.800" },
+    ],
+    pieces: [
+      {
+        badge: "Feed · Instagram",
+        client: "BrasilCard · Cliente Final",
+        src: recargaFeed.url,'''
+          if 'value: "12.400"' not in s:
+              s = s.replace(recarga_anchor, recarga_insert, 1)
 
-          # Replace the existing campaign rendering area with a case summary block.
+          indique_anchor = '''    pieces: [
+      {
+        badge: "Feed · CTA",
+        client: "BrasilCard · Cliente Final",
+        src: indiqueCta.url,'''
+          indique_insert = '''    channels: ["Instagram", "WhatsApp", "Site", "App"],
+    indicators: ["Cliques no CTA", "Compartilhamentos", "Indicações realizadas", "Conversões", "Novos usuários"],
+    pieces: [
+      {
+        badge: "Feed · CTA",
+        client: "BrasilCard · Cliente Final",
+        src: indiqueCta.url,'''
+          if 'indicators: ["Cliques no CTA"' not in s:
+              s = s.replace(indique_anchor, indique_insert, 1)
+
+          # Insert the case information immediately before the campaign pieces grid.
           if 'Objetivo e estratégia' not in s:
               marker = '            <div className="grid gap-8 md:grid-cols-2">{c.pieces.map((p) => {'
-              block = '''            <div className="grid lg:grid-cols-[1fr_1fr] gap-8 mb-8">
+              case_block = '''            <div className="grid lg:grid-cols-[1fr_1fr] gap-8 mb-8">
               <div className="p-6 md:p-8 rounded-xl bg-surface border border-border">
                 <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4 font-semibold">Canais</div>
                 <div className="flex flex-wrap gap-2">{c.channels.map((channel) => <span key={channel} className="px-3 py-1.5 rounded-full border border-border text-xs">{channel}</span>)}</div>
@@ -74,18 +114,19 @@ jobs:
             </div>
 
             <div className="grid gap-8 md:grid-cols-2">{c.pieces.map((p) => {'''
-              if marker in s:
-                  s = s.replace(marker, block, 1)
+              s = s.replace(marker, case_block, 1)
 
           p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Verify
+      - name: Generate portfolio PDF from original PPTX
         run: |
-          test -f public/antonio-fontes-portfolio.pdf
-          grep -q 'Baixar portfólio (PDF)' src/routes/index.tsx
-          grep -q 'download="antonio-fontes-portfolio.pptx"' src/routes/index.tsx
-          ! grep -q 'Baixar currículo (PDF)' src/routes/index.tsx
+          mkdir -p /tmp/portfolio-pdf
+          libreoffice --headless --convert-to pdf --outdir /tmp/portfolio-pdf public/antonio-fontes-portfolio.pptx
+          cp /tmp/portfolio-pdf/antonio-fontes-portfolio.pdf public/antonio-fontes-portfolio.pdf
+
+      - name: Verify source changes
+        run: |
           grep -q 'Copywriting · Marketing Digital' src/routes/index.tsx
           grep -q 'Estratégia se mede pelo' src/routes/index.tsx
           grep -q 'Campanhas e conteúdos desenvolvidos para' src/routes/index.tsx
@@ -93,15 +134,19 @@ jobs:
           grep -q '35%' src/routes/index.tsx
           grep -q '2.800' src/routes/index.tsx
           grep -q 'Objetivo e estratégia' src/routes/index.tsx
+          grep -q 'indicators: \["Cliques no CTA"' src/routes/index.tsx
+          grep -q 'Baixar portfólio (PDF)' src/routes/index.tsx
+          grep -q 'download="antonio-fontes-portfolio.pptx"' src/routes/index.tsx
+          ! grep -q 'Baixar currículo (PDF)' src/routes/index.tsx
 
-      - name: Commit only when files changed
+      - name: Commit changes
         run: |
-          if git diff --quiet -- src/routes/index.tsx public/antonio-fontes-portfolio.pdf; then
-            echo "Nenhuma alteração necessária."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/routes/index.tsx public/antonio-fontes-portfolio.pdf
-          git commit -m "feat: atualiza cases e indicadores do portfolio"
-          git push
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração necessária."
+          else
+            git commit -m "feat: atualiza cases e indicadores do portfolio"
+            git push
+          fi
