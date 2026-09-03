@@ -69,6 +69,10 @@ const education = [
   { degree: "Mestrado em Comunicação", institution: "UFPI", period: "2017 · 2019" },
   { degree: "Graduação em Comunicação Social, Jornalismo", institution: "UFPI", period: "2012 · 2015" },
 ];
+const education = [
+  { degree: "Mestrado em Comunicação", institution: "UFPI", period: "2017 · 2019" },
+  { degree: "Graduação em Comunicação Social, Jornalismo", institution: "UFPI", period: "2012 · 2015" },
+];
 
 function Home() {
   return (
