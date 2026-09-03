@@ -22,6 +22,9 @@ jobs:
           p = Path('src/routes/index.tsx')
           s = p.read_text(encoding='utf-8')
 
+          # Keep the year labels inside their cards on all breakpoints.
+          s = s.replace('font-display font-extrabold text-5xl text-accent leading-none">{e.year}', 'font-display font-extrabold text-4xl md:text-5xl tracking-[-0.06em] text-accent leading-none">{e.year}')
+
           # Remove unsupported figures previously inserted into the case study.
           s = re.sub(r', results: \[\{ label: "Cliques", value: "12\.400" \}, \{ label: "CTR", value: "35%" \}, \{ label: "Conversões", value: "2\.800" \}\]', '', s)
 
