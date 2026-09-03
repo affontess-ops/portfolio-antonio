@@ -1,4 +1,4 @@
-name: Fix portfolio downloads
+name: Sync portfolio with CV
 
 on:
   push:
@@ -8,18 +8,12 @@ permissions:
   contents: write
 
 jobs:
-  update-portfolio:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install PDF conversion tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libreoffice
-
-      - name: Apply portfolio changes
+      - name: Update portfolio content from CV
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -28,135 +22,76 @@ jobs:
           p = Path('src/routes/index.tsx')
           s = p.read_text(encoding='utf-8')
 
-          # Remove the entire download-buttons container from the hero.
-          s = re.sub(
-              r'\s*<div className="flex flex-wrap gap-3 mt-8 pdf-exclude">.*?</div>',
-              '',
-              s,
-              count=1,
-              flags=re.S,
-          )
+          # Remove unsupported figures previously inserted into the case study.
+          s = re.sub(r', results: \[\{ label: "Cliques", value: "12\.400" \}, \{ label: "CTR", value: "35%" \}, \{ label: "Conversões", value: "2\.800" \}\]', '', s)
 
-          s = s.replace('Copywriting · Marketing de Conteúdo', 'Copywriting · Marketing Digital')
-          s = s.replace('"Marketing de Conteúdo",\n  "Planejamento Editorial"', '"Marketing Digital",\n  "Planejamento Editorial"')
+          # CV headline metrics, presented as numbers first.
+          s = re.sub(r'const heroStats = \[.*?\];', '''const heroStats = [
+            { num: "10", suf: "+", label: "Anos de experiência" },
+            { num: "1.400", suf: "%", label: "Crescimento orgânico" },
+            { num: "5", suf: "x", label: "Conversão em campanhas" },
+            { num: "16.400", suf: "+", label: "Lojistas e vendedores" },
+          ];''', s, count=1, flags=re.S)
 
-          s = re.sub(
-              r'Cada cargo tem um \{" "\}.*?que prova o impacto\. Todos rastreáveis, nenhum inventado\.',
-              'Estratégia se mede pelo <em className="not-italic italic text-accent">impacto.</em> Aqui, cada resultado tem um indicador por trás.',
-              s,
-              count=1,
-              flags=re.S,
-          )
+          s = re.sub(r'const numbers = \[.*?\];', '''const numbers = [
+            { big: "1.400%", desc: "Crescimento da base de seguidores no Instagram", ctx: "De 306 para 4.586 seguidores em 8 meses" },
+            { big: "5x", desc: "Aumento na conversão de campanhas sazonais", ctx: "De 1% para 5% no WhatsApp Business" },
+            { big: "4x", desc: "Aumento na conversão via Google Forms", ctx: "De 1% para 4% entre janeiro e maio de 2026" },
+            { big: "16.400+", desc: "Lojistas e vendedores alcançados", ctx: "Campanhas nacionais de incentivo" },
+            { big: "5", desc: "Campanhas sazonais executadas em 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor e Copa" },
+            { big: "86%", desc: "Aproveitamento em releases estratégicos", ctx: "R2 Assessoria, contas estratégicas" },
+            { big: "85%", desc: "Aproveitamento em publicações institucionais", ctx: "Secretaria de Justiça do Piauí" },
+            { big: "30+", desc: "Inserções de clipping por dia", ctx: "Secretaria de Justiça do Piauí" },
+          ];''', s, count=1, flags=re.S)
+
+          # Replace experience section data with concise, CV-grounded highlights.
+          s = re.sub(r'const experiences: Exp\[\] = \[.*?\];', '''const experiences: Exp[] = [
+            { year: "2025", yearSub: "Fev · atual", company: "BrasilCard | BOLT", role: "Assistente de Comunicação e Marketing", bullets: ["Aumento da conversão de campanhas sazonais de 1% para 5% no WhatsApp Business e de 1% para 4% no Google Forms, via otimização de briefing e copy.", "Planejamento e execução de campanhas nacionais de incentivo para 16.400+ lojistas e vendedores.", "Execução de 5 campanhas sazonais em 6 meses e gestão da comunicação em 19 grupos corporativos de WhatsApp."], kpis: [{ v: "5x", l: "Conversão" }, { v: "16.400+", l: "Lojistas e vendedores" }, { v: "19", l: "Grupos" }] },
+            { year: "2023", yearSub: "Abr 2023 · Nov 2024", company: "Assessoria de Comunicação", role: "Coordenador de Marketing e Comunicação", bullets: ["Coordenação de equipe de comunicação, com direção de pauta editorial e produção multiplataforma.", "Crescimento de 1.400% no Instagram, de 306 para 4.586 seguidores em 8 meses.", "Preparação de porta-voz e direcionamento de temas estratégicos para entrevistas na mídia local."], kpis: [{ v: "1.400%", l: "Crescimento" }, { v: "4.586", l: "Seguidores" }] },
+            { year: "2019", yearSub: "2019 · 2023", company: "Freelancer", role: "Consultor de Marketing Digital e Comunicação", bullets: ["Comunicação digital e institucional para 4 gestões municipais no Piauí.", "Gestão de redes sociais e consultoria de marketing digital para carteira de clientes.", "Geração de cobertura espontânea em mídias regionais."], kpis: [{ v: "4", l: "Gestões municipais" }] },
+            { year: "2016", yearSub: "2016 · 2017", company: "R2 Assessoria de Comunicação", role: "Analista de Comunicação e Conteúdo", bullets: ["Aproveitamento médio de 82% em releases enviados à imprensa, chegando a 86% em contas estratégicas.", "Atendimento de carteira de clientes, produção de releases e notas, gestão de redes sociais e posicionamento de marca."], kpis: [{ v: "86%", l: "Contas estratégicas" }, { v: "82%", l: "Média" }] },
+            { year: "2015", yearSub: "2015 · 2016", company: "Secretaria de Justiça do Piauí", role: "Analista de Comunicação Institucional", bullets: ["85% de aproveitamento em publicações institucionais e análise diária de clipping, com 30+ inserções por dia.", "Redação de notas oficiais, gestão de redes sociais e posicionamento institucional."], kpis: [{ v: "85%", l: "Aproveitamento" }, { v: "30+", l: "Inserções/dia" }] },
+          ];''', s, count=1, flags=re.S)
+
+          # Skills aligned to the CV terminology.
+          s = re.sub(r'const skillBars = \[.*?\];', '''const skillBars = [
+            { name: "Coordenação de Equipes", pct: 95 },
+            { name: "Marketing de Conteúdo", pct: 92 },
+            { name: "Marketing Digital", pct: 92 },
+            { name: "Copywriting & Redação Estratégica", pct: 95 },
+            { name: "Gestão de Campanhas", pct: 90 },
+            { name: "Gestão de Redes Sociais", pct: 88 },
+            { name: "Comunicação Institucional", pct: 92 },
+            { name: "KPIs & Métricas de Desempenho", pct: 80 },
+          ];''', s, count=1, flags=re.S)
+
+          # Correct professional summary to match CV.
           s = s.replace(
-              'Cada cargo tem um número que prova o impacto. Todos rastreáveis, nenhum inventado.',
-              'Estratégia se mede pelo impacto. Aqui, cada resultado tem um indicador por trás.'
+            'Atuo há mais de 10 anos em Marketing e Comunicação, desenvolvendo estratégias, conteúdos e campanhas orientados a resultados. Minha experiência combina criatividade, estratégia e dados, com resultados como 1.400% de crescimento em audiência digital e até 5x mais conversão em campanhas sazonais. Sou mestre em Comunicação pela UFPI.',
+            'Profissional de Marketing e Comunicação com mais de 10 anos de experiência em conteúdo estratégico, gestão de campanhas digitais, coordenação de equipes e comunicação institucional. Desenvolvo estratégias orientadas a objetivos de negócio, com resultados mensuráveis em crescimento de audiência, conversão e engajamento. Sou mestre em Comunicação pela UFPI.'
           )
 
-          s = re.sub(
-              r'Peças que\s*<em[^>]*>assinei</em>\s*<br\s*/?>\s*na BrasilCard e BOLT\.',
-              'Campanhas e conteúdos desenvolvidos para <em className="italic not-italic text-accent">BrasilCard.</em>',
-              s,
-              count=1,
-              flags=re.S,
-          )
-
-          s = s.replace(
-              'type Piece = { badge: string; client: string; src: string; alt: string };',
-              'type Piece = { badge: string; client: string; src: string; alt: string };\n'
-          )
-
-          s = s.replace(
-              'const campaigns: { name: string; intro: string; strategy: string; pieces: Piece[] }[] = [',
-              'const campaigns: { name: string; intro: string; strategy: string; channels: string[]; indicators: string[]; results?: { label: string; value: string }[]; pieces: Piece[] }[] = ['
-          )
-
-          recarga_anchor = '''    pieces: [
-      {
-        badge: "Feed · Instagram",
-        client: "BrasilCard · Cliente Final",
-        src: recargaFeed.url,'''
-          recarga_insert = '''    channels: ["Instagram", "Site", "App"],
-    indicators: ["Cliques para o site", "Acessos ao App", "Alcance no Instagram", "Interações com a publicação", "Conversões"],
-    results: [
-      { label: "Cliques", value: "12.400" },
-      { label: "CTR", value: "35%" },
-      { label: "Conversões", value: "2.800" },
-    ],
-    pieces: [
-      {
-        badge: "Feed · Instagram",
-        client: "BrasilCard · Cliente Final",
-        src: recargaFeed.url,'''
-          if 'value: "12.400"' not in s:
-              s = s.replace(recarga_anchor, recarga_insert, 1)
-
-          indique_anchor = '''    pieces: [
-      {
-        badge: "Feed · CTA",
-        client: "BrasilCard · Cliente Final",
-        src: indiqueCta.url,'''
-          indique_insert = '''    channels: ["Instagram", "WhatsApp", "Site", "App"],
-    indicators: ["Cliques no CTA", "Compartilhamentos", "Indicações realizadas", "Conversões", "Novos usuários"],
-    pieces: [
-      {
-        badge: "Feed · CTA",
-        client: "BrasilCard · Cliente Final",
-        src: indiqueCta.url,'''
-          if 'indicators: ["Cliques no CTA"' not in s:
-              s = s.replace(indique_anchor, indique_insert, 1)
-
-          if 'Objetivo e estratégia' not in s:
-              marker = '            <div className="grid gap-8 md:grid-cols-2">{c.pieces.map((p) => {'
-              case_block = '''            <div className="grid lg:grid-cols-[1fr_1fr] gap-8 mb-8">
-              <div className="p-6 md:p-8 rounded-xl bg-surface border border-border">
-                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4 font-semibold">Canais</div>
-                <div className="flex flex-wrap gap-2">{c.channels.map((channel) => <span key={channel} className="px-3 py-1.5 rounded-full border border-border text-xs">{channel}</span>)}</div>
-                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mt-8 mb-4 font-semibold">Indicadores</div>
-                <div className="grid sm:grid-cols-2 gap-3">{c.indicators.map((indicator) => <div key={indicator} className="text-sm text-muted-foreground">{indicator}</div>)}</div>
-                {c.results && <><div className="text-[10px] tracking-[0.3em] uppercase text-accent mt-8 mb-4 font-semibold">Resultados</div><div className="grid sm:grid-cols-3 gap-3">{c.results.map((result) => <div key={result.label} className="p-4 rounded-lg border border-border"><div className="font-display font-extrabold text-2xl text-accent">{result.value}</div><div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-2">{result.label}</div></div>)}</div></>}
-              </div>
-              <div className="p-6 md:p-8 rounded-xl bg-surface/60 border border-border">
-                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3 font-semibold">Objetivo e estratégia</div>
-                <p className="text-sm md:text-base leading-relaxed text-foreground/90">{c.strategy}</p>
-              </div>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-2">{c.pieces.map((p) => {'''
-              s = s.replace(marker, case_block, 1)
+          # Add formation to the existing tools/skills area, once.
+          if 'Mestrado em Comunicação · UFPI' not in s:
+            marker = 'const tools = ["Google Workspace", "Canva", "ClickUp", "Notion", "Trello"];'
+            replacement = '''const tools = ["Google Workspace", "Canva", "ClickUp", "Notion", "Trello"];
+          const education = [
+            { degree: "Mestrado em Comunicação", institution: "UFPI", period: "2017 · 2019" },
+            { degree: "Graduação em Comunicação Social, Jornalismo", institution: "UFPI", period: "2012 · 2015" },
+          ];'''
+            s = s.replace(marker, replacement, 1)
 
           p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Generate portfolio PDF from original PPTX
-        run: |
-          mkdir -p /tmp/portfolio-pdf
-          libreoffice --headless --convert-to pdf --outdir /tmp/portfolio-pdf public/antonio-fontes-portfolio.pptx
-          cp /tmp/portfolio-pdf/antonio-fontes-portfolio.pdf public/antonio-fontes-portfolio.pdf
-
-      - name: Verify source changes
-        run: |
-          grep -q 'Copywriting · Marketing Digital' src/routes/index.tsx
-          grep -q 'Estratégia se mede pelo' src/routes/index.tsx
-          grep -q 'Campanhas e conteúdos desenvolvidos para' src/routes/index.tsx
-          grep -q '12.400' src/routes/index.tsx
-          grep -q '35%' src/routes/index.tsx
-          grep -q '2.800' src/routes/index.tsx
-          grep -q 'Objetivo e estratégia' src/routes/index.tsx
-          grep -q 'indicators: \["Cliques no CTA"' src/routes/index.tsx
-          ! grep -q 'Baixar currículo (PDF)' src/routes/index.tsx
-          ! grep -q 'Baixar portfólio (PDF)' src/routes/index.tsx
-          ! grep -q 'Baixar portfólio (PPTX)' src/routes/index.tsx
-          ! grep -q 'exportPortfolioPdf' src/routes/index.tsx
-          ! grep -q 'antonio-fontes-portfolio.pptx" download' src/routes/index.tsx
-
-      - name: Commit changes
+      - name: Commit synchronized portfolio
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/routes/index.tsx public/antonio-fontes-portfolio.pdf
+          git add src/routes/index.tsx
           if git diff --cached --quiet; then
             echo "Nenhuma alteração necessária."
           else
-            git commit -m "fix: remove botoes de download"
+            git commit -m "feat: atualizar portfolio com dados do CV"
             git push
           fi
