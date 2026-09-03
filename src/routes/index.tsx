@@ -12,23 +12,26 @@ export const Route = createFileRoute("/")({ component: Home });
 
 const heroStats = [
   { num: "10", suf: "+", label: "Anos de experiência" },
-  { num: "16.4", suf: "k", label: "Lojistas impactados" },
-  { num: "19", suf: "", label: "Grupos de WhatsApp" },
+  { num: "1.400", suf: "%", label: "Crescimento orgânico" },
+  { num: "5", suf: "x", label: "Conversão em campanhas" },
+  { num: "16.400", suf: "+", label: "Lojistas e vendedores" },
 ];
 const numbers = [
-  { big: "16.400", desc: "Lojistas e vendedores impactados nos grupos de WhatsApp", ctx: "19 grupos de WhatsApp · BrasilCard + BOLT" },
-  { big: "5x", desc: "Aumento na conversão de campanhas sazonais", ctx: "De 1% para 5% no WhatsApp Business · jan a mai/2026" },
-  { big: "5", desc: "Campanhas sazonais executadas nos últimos 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor, Copa" },
-  { big: "1.400%", desc: "Crescimento de seguidores no Instagram", ctx: "De 306 para 4.586 em 8 meses · cliente privado" },
-  { big: "04", desc: "Gestões municipais no Piauí atendidas", ctx: "Comunicação digital · 2019 a 2025" },
-  { big: "86%", desc: "Aproveitamento em releases estratégicos", ctx: "R2 Assessoria · acima da média de mercado" },
+  { big: "1.400%", desc: "Crescimento da base de seguidores no Instagram", ctx: "De 306 para 4.586 seguidores em 8 meses" },
+  { big: "5x", desc: "Aumento na conversão de campanhas sazonais", ctx: "De 1% para 5% no WhatsApp Business" },
+  { big: "4x", desc: "Aumento na conversão via Google Forms", ctx: "De 1% para 4% entre janeiro e maio de 2026" },
+  { big: "16.400+", desc: "Lojistas e vendedores alcançados", ctx: "Campanhas nacionais de incentivo" },
+  { big: "5", desc: "Campanhas sazonais executadas em 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor e Copa" },
+  { big: "86%", desc: "Aproveitamento em releases estratégicos", ctx: "R2 Assessoria, contas estratégicas" },
+  { big: "85%", desc: "Aproveitamento em publicações institucionais", ctx: "Secretaria de Justiça do Piauí" },
+  { big: "30+", desc: "Inserções de clipping por dia", ctx: "Secretaria de Justiça do Piauí" },
 ];
 
 type Piece = { badge: string; client: string; src: string; alt: string };
 type Campaign = { name: string; intro: string; strategy: string; channels: string[]; indicators: string[]; results?: { label: string; value: string }[]; pieces: Piece[] };
 const campaigns: Campaign[] = [
   {
-    name: "Recarga Rápida", intro: "Campanha para incentivar o uso da recarga de celular no App BrasilCard.", strategy: "Estratégia focada em reduzir fricção percebida, com linguagem direta, gatilho de conveniência e call to action único para migrar o hábito da loja física para o app.", channels: ["Instagram", "Site", "App"], indicators: ["Cliques para o site", "Acessos ao App", "Alcance no Instagram", "Interações com a publicação", "Conversões"], results: [{ label: "Cliques", value: "12.400" }, { label: "CTR", value: "35%" }, { label: "Conversões", value: "2.800" }], pieces: [
+    name: "Recarga Rápida", intro: "Campanha para incentivar o uso da recarga de celular no App BrasilCard.", strategy: "Estratégia focada em reduzir fricção percebida, com linguagem direta, gatilho de conveniência e call to action único para migrar o hábito da loja física para o app.", channels: ["Instagram", "Site", "App"], indicators: ["Cliques para o site", "Acessos ao App", "Alcance no Instagram", "Interações com a publicação", "Conversões"], pieces: [
       { badge: "Feed · Instagram", client: "BrasilCard · Cliente Final", src: recargaFeed.url, alt: "Peça de feed da campanha Recarga Rápida no Instagram" },
       { badge: "Feed · Instagram", client: "BrasilCard · Cliente Final", src: recargaFeed2.url, alt: "Segunda peça de feed da campanha Recarga Rápida" },
       { badge: "Banner · Site Institucional", client: "BrasilCard · Cliente Final", src: recargaBanner.url, alt: "Banner do site institucional da campanha Recarga Rápida" },
@@ -45,15 +48,27 @@ const campaigns: Campaign[] = [
 
 type Exp = { year: string; yearSub: string; company: string; role: string; bullets: string[]; kpis: { v: string; l: string }[] };
 const experiences: Exp[] = [
-  { year: "2025", yearSub: "Fev · atual", company: "BrasilCard | BOLT", role: "Assistente de Comunicação e Marketing", bullets: ["Contribuí para o aumento da conversão de campanhas sazonais de kits promocionais, que evoluiu de 1% para 5% no WhatsApp Business e de 1% para 4% no Google Forms entre janeiro e maio de 2026.", "Planejo e executo campanhas de incentivo para cerca de 16.400 lojistas e vendedores.", "Organizei, administrei e executei 5 campanhas sazonais em 6 meses, produzindo briefings, copy e kits de campanha.", "Gerencio comunicação em 19 grupos de WhatsApp corporativo."], kpis: [{ v: "5x", l: "Conversão sazonal" }, { v: "16.4k", l: "Lojistas impactados" }, { v: "19", l: "Grupos de WhatsApp" }] },
-  { year: "2019", yearSub: "2019 a 2025 · 6 anos", company: "Freelancer · Teresina, PI · Remoto", role: "Consultor de Comunicação e Marketing Digital", bullets: ["Escalei a base de seguidores de cliente no Instagram de 306 para 4.586, crescimento de 1.400% em 8 meses.", "Conduzi comunicação digital para 4 gestões municipais no Piauí.", "Otimizei conteúdo para redes sociais e prestei consultoria de comunicação digital.", "Gerei cobertura espontânea em veículos de TV e portais regionais."], kpis: [{ v: "+1.400%", l: "Seguidores em 8 meses" }, { v: "4", l: "Gestões municipais" }] },
-  { year: "2016", yearSub: "2016 a 2017", company: "R2 Assessoria de Comunicação", role: "Analista de Comunicação e Conteúdo", bullets: ["Sustentei 82% de aproveitamento médio em releases enviados, atingindo 86% em contas estratégicas.", "Publiquei conteúdo institucional recorrente nos principais veículos impressos e digitais da região."], kpis: [{ v: "86%", l: "Contas estratégicas" }, { v: "82%", l: "Média em releases" }] },
-  { year: "2015", yearSub: "2015 a 2016", company: "Secretaria de Justiça do Piauí", role: "Analista de Comunicação Institucional", bullets: ["Atingi 85% de aproveitamento em publicações institucionais, com produção e análise diária de clipping, 30+ inserções/dia.", "Redigi notas oficiais e conduzi posicionamento estratégico de ações institucionais e políticas públicas."], kpis: [{ v: "85%", l: "Aproveitamento" }, { v: "30+", l: "Inserções/dia" }] },
+  { year: "2025", yearSub: "Fev · atual", company: "BrasilCard | BOLT", role: "Assistente de Comunicação e Marketing", bullets: ["Aumento da conversão de campanhas sazonais de 1% para 5% no WhatsApp Business e de 1% para 4% no Google Forms, via otimização de briefing e copy.", "Planejamento e execução de campanhas nacionais de incentivo para 16.400+ lojistas e vendedores.", "Execução de 5 campanhas sazonais em 6 meses e gestão da comunicação em 19 grupos corporativos de WhatsApp."], kpis: [{ v: "5x", l: "Conversão" }, { v: "16.400+", l: "Lojistas e vendedores" }, { v: "19", l: "Grupos" }] },
+  { year: "2023", yearSub: "Abr 2023 · Nov 2024", company: "Assessoria de Comunicação", role: "Coordenador de Marketing e Comunicação", bullets: ["Coordenação de equipe de comunicação, com direção de pauta editorial e produção multiplataforma.", "Crescimento de 1.400% no Instagram, de 306 para 4.586 seguidores em 8 meses.", "Preparação de porta-voz e direcionamento de temas estratégicos para entrevistas na mídia local."], kpis: [{ v: "1.400%", l: "Crescimento" }, { v: "4.586", l: "Seguidores" }] },
+  { year: "2019", yearSub: "2019 · 2023", company: "Freelancer", role: "Consultor de Marketing Digital e Comunicação", bullets: ["Comunicação digital e institucional para 4 gestões municipais no Piauí.", "Gestão de redes sociais e consultoria de marketing digital para carteira de clientes.", "Geração de cobertura espontânea em mídias regionais."], kpis: [{ v: "4", l: "Gestões municipais" }] },
+  { year: "2016", yearSub: "2016 · 2017", company: "R2 Assessoria de Comunicação", role: "Analista de Comunicação e Conteúdo", bullets: ["Aproveitamento médio de 82% em releases enviados à imprensa, chegando a 86% em contas estratégicas.", "Atendimento de carteira de clientes, produção de releases e notas, gestão de redes sociais e posicionamento de marca."], kpis: [{ v: "86%", l: "Contas estratégicas" }, { v: "82%", l: "Média" }] },
+  { year: "2015", yearSub: "2015 · 2016", company: "Secretaria de Justiça do Piauí", role: "Analista de Comunicação Institucional", bullets: ["85% de aproveitamento em publicações institucionais e análise diária de clipping, com 30+ inserções por dia.", "Redação de notas oficiais, gestão de redes sociais e posicionamento institucional."], kpis: [{ v: "85%", l: "Aproveitamento" }, { v: "30+", l: "Inserções/dia" }] },
 ];
 const skillBars = [
-  { name: "Copywriting & Redação Estratégica", pct: 95 }, { name: "Marketing de Conteúdo", pct: 92 }, { name: "Comunicação Institucional", pct: 92 }, { name: "Gestão de Redes Sociais", pct: 88 }, { name: "WhatsApp Corporativo & Campanhas Digitais", pct: 90 }, { name: "Branding & Planejamento Editorial", pct: 85 }, { name: "KPIs & Métricas de Desempenho", pct: 80 },
+  { name: "Coordenação de Equipes", pct: 95 },
+  { name: "Marketing de Conteúdo", pct: 92 },
+  { name: "Marketing Digital", pct: 92 },
+  { name: "Copywriting & Redação Estratégica", pct: 95 },
+  { name: "Gestão de Campanhas", pct: 90 },
+  { name: "Gestão de Redes Sociais", pct: 88 },
+  { name: "Comunicação Institucional", pct: 92 },
+  { name: "KPIs & Métricas de Desempenho", pct: 80 },
 ];
 const tools = ["Google Workspace", "Canva", "ClickUp", "Notion", "Trello"];
+const education = [
+  { degree: "Mestrado em Comunicação", institution: "UFPI", period: "2017 · 2019" },
+  { degree: "Graduação em Comunicação Social, Jornalismo", institution: "UFPI", period: "2012 · 2015" },
+];
 
 function Home() {
   return (
@@ -64,7 +79,7 @@ function Home() {
         <div className="flex flex-col justify-center px-6 lg:px-16 pt-32 pb-20 relative">
           <p className="text-accent text-[11px] tracking-[0.32em] uppercase mb-8 flex items-center gap-4 font-medium"><span className="h-px w-10 bg-accent" />Copywriting · Marketing Digital</p>
           <h1 className="font-display font-extrabold leading-[0.85] text-[clamp(3.5rem,10vw,9rem)]">Antonio<br /><span className="italic font-bold text-accent block mt-2 skew-x-[-6deg] origin-left">Fontes</span></h1>
-          <p className="mt-10 text-lg leading-relaxed text-muted-foreground max-w-xl border-l-2 border-accent pl-5">Atuo há mais de 10 anos em Marketing e Comunicação, desenvolvendo estratégias, conteúdos e campanhas orientados a resultados. Minha experiência combina criatividade, estratégia e dados, com resultados como 1.400% de crescimento em audiência digital e até 5x mais conversão em campanhas sazonais. Sou mestre em Comunicação pela UFPI.</p>
+          <p className="mt-10 text-lg leading-relaxed text-muted-foreground max-w-xl border-l-2 border-accent pl-5">Profissional de Marketing e Comunicação com mais de 10 anos de experiência em conteúdo estratégico, gestão de campanhas digitais, coordenação de equipes e comunicação institucional. Desenvolvo estratégias orientadas a objetivos de negócio, com resultados mensuráveis em crescimento de audiência, conversão e engajamento. Sou mestre em Comunicação pela UFPI.</p>
           <div className="flex flex-wrap gap-3 mt-8 pdf-exclude"><button type="button" onClick={() => void exportPortfolioPdf()} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-opacity">Baixar portfólio (PDF)</button><a href="/antonio-fontes-portfolio.pptx" download="antonio-fontes-portfolio.pptx" type="application/vnd.openxmlformats-officedocument.presentationml.presentation" className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold text-sm tracking-wide hover:bg-accent/10 transition-colors">Baixar portfólio (PPTX)</a></div>
         </div>
         <div className="relative bg-surface min-h-[420px] lg:min-h-0 overflow-hidden"><div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.55_0.28_265/0.35),transparent_60%)]" /><div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,oklch(0.55_0.28_265/0.25),transparent_50%)]" /><div className="relative h-full flex items-center justify-center p-10 lg:p-16"><div className="text-center max-w-md"><div className="font-display italic text-accent text-8xl leading-none mb-4">“</div><p className="font-display font-semibold text-3xl xl:text-4xl leading-tight">Copy com estratégia.<br />Conteúdo com <span className="italic text-accent">resultado.</span></p><div className="mt-10 text-[10px] tracking-[0.35em] text-muted-foreground uppercase">Antonio Fontes · Teresina · PI</div></div></div></div>
