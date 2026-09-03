@@ -1,4 +1,4 @@
-name: Sync portfolio with CV
+name: Fix portfolio year labels
 
 on:
   push:
@@ -8,86 +8,27 @@ permissions:
   contents: write
 
 jobs:
-  sync:
+  fix-years:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Update portfolio content from CV
+      - name: Ajustar anos da trajetória
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re
-
           p = Path('src/routes/index.tsx')
           s = p.read_text(encoding='utf-8')
-
-          # Keep the year labels inside their cards on all breakpoints.
-          s = s.replace('font-display font-extrabold text-5xl text-accent leading-none">{e.year}', 'font-display font-extrabold text-4xl md:text-5xl tracking-[-0.06em] text-accent leading-none">{e.year}')
-
-          # Remove unsupported figures previously inserted into the case study.
-          s = re.sub(r', results: \[\{ label: "Cliques", value: "12\.400" \}, \{ label: "CTR", value: "35%" \}, \{ label: "Conversões", value: "2\.800" \}\]', '', s)
-
-          # CV headline metrics, presented as numbers first.
-          s = re.sub(r'const heroStats = \[.*?\];', '''const heroStats = [
-            { num: "10", suf: "+", label: "Anos de experiência" },
-            { num: "1.400", suf: "%", label: "Crescimento orgânico" },
-            { num: "5", suf: "x", label: "Conversão em campanhas" },
-            { num: "16.400", suf: "+", label: "Lojistas e vendedores" },
-          ];''', s, count=1, flags=re.S)
-
-          s = re.sub(r'const numbers = \[.*?\];', '''const numbers = [
-            { big: "1.400%", desc: "Crescimento da base de seguidores no Instagram", ctx: "De 306 para 4.586 seguidores em 8 meses" },
-            { big: "5x", desc: "Aumento na conversão de campanhas sazonais", ctx: "De 1% para 5% no WhatsApp Business" },
-            { big: "4x", desc: "Aumento na conversão via Google Forms", ctx: "De 1% para 4% entre janeiro e maio de 2026" },
-            { big: "16.400+", desc: "Lojistas e vendedores alcançados", ctx: "Campanhas nacionais de incentivo" },
-            { big: "5", desc: "Campanhas sazonais executadas em 6 meses", ctx: "Carnaval, Dia das Mães, São João, Mês do Consumidor e Copa" },
-            { big: "86%", desc: "Aproveitamento em releases estratégicos", ctx: "R2 Assessoria, contas estratégicas" },
-            { big: "85%", desc: "Aproveitamento em publicações institucionais", ctx: "Secretaria de Justiça do Piauí" },
-            { big: "30+", desc: "Inserções de clipping por dia", ctx: "Secretaria de Justiça do Piauí" },
-          ];''', s, count=1, flags=re.S)
-
-          # Replace experience section data with concise, CV-grounded highlights.
-          s = re.sub(r'const experiences: Exp\[\] = \[.*?\];', '''const experiences: Exp[] = [
-            { year: "2025", yearSub: "Fev · atual", company: "BrasilCard | BOLT", role: "Assistente de Comunicação e Marketing", bullets: ["Aumento da conversão de campanhas sazonais de 1% para 5% no WhatsApp Business e de 1% para 4% no Google Forms, via otimização de briefing e copy.", "Planejamento e execução de campanhas nacionais de incentivo para 16.400+ lojistas e vendedores.", "Execução de 5 campanhas sazonais em 6 meses e gestão da comunicação em 19 grupos corporativos de WhatsApp."], kpis: [{ v: "5x", l: "Conversão" }, { v: "16.400+", l: "Lojistas e vendedores" }, { v: "19", l: "Grupos" }] },
-            { year: "2023", yearSub: "Abr 2023 · Nov 2024", company: "Assessoria de Comunicação", role: "Coordenador de Marketing e Comunicação", bullets: ["Coordenação de equipe de comunicação, com direção de pauta editorial e produção multiplataforma.", "Crescimento de 1.400% no Instagram, de 306 para 4.586 seguidores em 8 meses.", "Preparação de porta-voz e direcionamento de temas estratégicos para entrevistas na mídia local."], kpis: [{ v: "1.400%", l: "Crescimento" }, { v: "4.586", l: "Seguidores" }] },
-            { year: "2019", yearSub: "2019 · 2023", company: "Freelancer", role: "Consultor de Marketing Digital e Comunicação", bullets: ["Comunicação digital e institucional para 4 gestões municipais no Piauí.", "Gestão de redes sociais e consultoria de marketing digital para carteira de clientes.", "Geração de cobertura espontânea em mídias regionais."], kpis: [{ v: "4", l: "Gestões municipais" }] },
-            { year: "2016", yearSub: "2016 · 2017", company: "R2 Assessoria de Comunicação", role: "Analista de Comunicação e Conteúdo", bullets: ["Aproveitamento médio de 82% em releases enviados à imprensa, chegando a 86% em contas estratégicas.", "Atendimento de carteira de clientes, produção de releases e notas, gestão de redes sociais e posicionamento de marca."], kpis: [{ v: "86%", l: "Contas estratégicas" }, { v: "82%", l: "Média" }] },
-            { year: "2015", yearSub: "2015 · 2016", company: "Secretaria de Justiça do Piauí", role: "Analista de Comunicação Institucional", bullets: ["85% de aproveitamento em publicações institucionais e análise diária de clipping, com 30+ inserções por dia.", "Redação de notas oficiais, gestão de redes sociais e posicionamento institucional."], kpis: [{ v: "85%", l: "Aproveitamento" }, { v: "30+", l: "Inserções/dia" }] },
-          ];''', s, count=1, flags=re.S)
-
-          # Skills aligned to the CV terminology.
-          s = re.sub(r'const skillBars = \[.*?\];', '''const skillBars = [
-            { name: "Coordenação de Equipes", pct: 95 },
-            { name: "Marketing de Conteúdo", pct: 92 },
-            { name: "Marketing Digital", pct: 92 },
-            { name: "Copywriting & Redação Estratégica", pct: 95 },
-            { name: "Gestão de Campanhas", pct: 90 },
-            { name: "Gestão de Redes Sociais", pct: 88 },
-            { name: "Comunicação Institucional", pct: 92 },
-            { name: "KPIs & Métricas de Desempenho", pct: 80 },
-          ];''', s, count=1, flags=re.S)
-
-          # Correct professional summary to match CV.
-          s = s.replace(
-            'Atuo há mais de 10 anos em Marketing e Comunicação, desenvolvendo estratégias, conteúdos e campanhas orientados a resultados. Minha experiência combina criatividade, estratégia e dados, com resultados como 1.400% de crescimento em audiência digital e até 5x mais conversão em campanhas sazonais. Sou mestre em Comunicação pela UFPI.',
-            'Profissional de Marketing e Comunicação com mais de 10 anos de experiência em conteúdo estratégico, gestão de campanhas digitais, coordenação de equipes e comunicação institucional. Desenvolvo estratégias orientadas a objetivos de negócio, com resultados mensuráveis em crescimento de audiência, conversão e engajamento. Sou mestre em Comunicação pela UFPI.'
-          )
-
-          # Add formation to the existing tools/skills area, once.
-          if 'Mestrado em Comunicação · UFPI' not in s:
-            marker = 'const tools = ["Google Workspace", "Canva", "ClickUp", "Notion", "Trello"];'
-            replacement = '''const tools = ["Google Workspace", "Canva", "ClickUp", "Notion", "Trello"];
-          const education = [
-            { degree: "Mestrado em Comunicação", institution: "UFPI", period: "2017 · 2019" },
-            { degree: "Graduação em Comunicação Social, Jornalismo", institution: "UFPI", period: "2012 · 2015" },
-          ];'''
-            s = s.replace(marker, replacement, 1)
-
+          old = 'font-display font-extrabold text-4xl md:text-5xl tracking-[-0.06em] text-accent leading-none'
+          new = 'font-display font-extrabold text-[2.25rem] md:text-[2.5rem] tracking-[-0.08em] text-accent leading-none whitespace-nowrap'
+          if old in s:
+              s = s.replace(old, new, 1)
+          else:
+              s = s.replace('font-display font-extrabold text-4xl md:text-5xl tracking-[-0.06em] text-accent leading-none', new, 1)
           p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Commit synchronized portfolio
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -95,6 +36,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nenhuma alteração necessária."
           else
-            git commit -m "feat: atualizar portfolio com dados do CV"
+            git commit -m "fix: reduzir anos da trajetória profissional"
             git push
           fi
