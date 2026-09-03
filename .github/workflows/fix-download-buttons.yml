@@ -19,12 +19,10 @@ jobs:
           from pathlib import Path
           p = Path('src/routes/index.tsx')
           s = p.read_text(encoding='utf-8')
-          old = 'font-display font-extrabold text-4xl md:text-5xl tracking-[-0.06em] text-accent leading-none'
-          new = 'font-display font-extrabold text-[2.25rem] md:text-[2.5rem] tracking-[-0.08em] text-accent leading-none whitespace-nowrap'
-          if old in s:
-              s = s.replace(old, new, 1)
-          else:
-              s = s.replace('font-display font-extrabold text-4xl md:text-5xl tracking-[-0.06em] text-accent leading-none', new, 1)
+          import re
+          pattern = r'font-display font-extrabold text-\[[^]]+\] md:text-\[[^]]+\] tracking-\[[^]]+\] text-accent leading-none whitespace-nowrap'
+          new = 'font-display font-extrabold text-[2.15rem] md:text-[2.35rem] tracking-[-0.07em] text-accent leading-none whitespace-nowrap'
+          s = re.sub(pattern, new, s, count=1)
           p.write_text(s, encoding='utf-8')
           PY
 
@@ -36,6 +34,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nenhuma alteração necessária."
           else
-            git commit -m "fix: reduzir anos da trajetória profissional"
+            git commit -m "fix: ajustar tamanho dos anos da trajetória"
             git push
           fi
